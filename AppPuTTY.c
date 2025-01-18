@@ -57,3 +57,56 @@ void do_bootsel(){
     sleep_ms(1);
     rom_reset_usb_boot_extra(-1, 0, false);
 }
+
+int main() {
+    
+    stdio_init_all();
+    init_gpio();
+
+    printf("Aguardando comandos...\n");
+
+    while (true) {
+        
+        //verifica caractere na entrada UART
+        if (getchar_timeout_us(0) != PICO_ERROR_TIMEOUT) {
+            char comando = getchar();
+
+            switch (comando) {
+                case '1':
+                    printf("Ligando LED verde...\n");
+                    leds_on(LED_GREEN);
+                    break;
+                case '2':
+                    printf("Ligando LED azul...\n");
+                    leds_on(LED_BLUE);
+                    break;
+                case '3':
+                    printf("Ligando LED vermelho...\n");
+                    leds_on(LED_RED);
+                    break;
+                case '4':
+                    printf("Ligando todos os LEDs...\n");
+                    all_leds_on();
+                    break;
+                case '5':
+                    printf("Desligando todos os LEDs...\n");
+                    leds_off();
+                    break;
+                case '6':
+                    printf("Acionando buzzer...\n");
+                    buzzer_on();
+                    break;
+                case '7':
+                    printf("Reiniciando...\n");
+                    sleep_ms(1000);
+                    return 0;//!
+                    //reset_usb_boot(0, 0);
+                default:
+                    printf("Comando invalido.\n");
+                    break;
+            }
+        }
+    }
+
+    return 0;
+}
