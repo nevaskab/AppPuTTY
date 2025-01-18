@@ -29,3 +29,24 @@ void turn_on_led(uint key)
     if (key == 12) gpio_put(LED_RED, 1);
 
 }
+
+/// Função para ligar todos os LEDs luz branca
+void turn_on_all_leds_white() {
+    gpio_put(LED_GREEN, 1);
+    gpio_put(LED_BLUE, 1);
+    gpio_put(LED_RED, 1);
+}
+
+/// Função para desligar todos os LEDs
+void turn_off_all_leds() {
+    gpio_put(LED_GREEN, 0);
+    gpio_put(LED_BLUE, 0);
+    gpio_put(LED_RED, 0);
+}
+
+/// Função para ligar o buzzer por 2 segundos
+void turn_on_buzzer() {
+    gpio_put(BUZZER, 1);
+    sleep_ms(2000);
+    gpio_put(BUZZER, 0);
+}
