@@ -27,7 +27,6 @@ void turn_on_led(uint key)
     if (key == 10) gpio_put(LED_GREEN, 1);
     if (key == 11) gpio_put(LED_BLUE, 1);
     if (key == 12) gpio_put(LED_RED, 1);
-
 }
 
 /// Função para ligar todos os LEDs luz branca
@@ -49,4 +48,12 @@ void turn_on_buzzer() {
     gpio_put(BUZZER, 1);
     sleep_ms(2000);
     gpio_put(BUZZER, 0);
+}
+
+/// @brief Função que realiza o reboot do dispositivo em modo BOOTSEL
+void do_bootsel(){
+{
+    printf("reiniciando...");
+    sleep_ms(1);
+    rom_reset_usb_boot_extra(-1, 0, false);
 }
