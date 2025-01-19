@@ -58,50 +58,50 @@ void do_bootsel()
     rom_reset_usb_boot_extra(-1, 0, false);
 }
 
-int main() {
-   
+int main() { 
     stdio_init_all();
     init_gpio();
 
     printf("Aguardando comandos...\n");
 
     while (true) {
-        
-        //Verificar entrada (definindo um comando para acionar as ações no PuTTY)
-        //A estrutura está apenas como uma base, podendo ser modificada durante o desenvolvimento
-        if () {
+ 
+        //verifica caractere na entrada UART
+	if (getchar_timeout_us(0) != PICO_ERROR_TIMEOUT) {
+        char comando = getchar();
 
-            switch () {
-                case '':
+
+            switch (comando) {
+                case '1':
                     printf("Ligando LED verde...\n");
                     turn_on_led(11);
                     break;
-                case '':
+                case '2':
                     printf("Ligando LED azul...\n");
                     turn_on_led(12);
                     break;
-                case '':
+                case '3':
                     printf("Ligando LED vermelho...\n");
                     turn_on_led(13);
                     break;
-                case '':
+                case '4':
                     printf("Ligando todos os LEDs...\n");
                     turn_on_all_leds_white();
                     break;
-                case '':
+                case '5':
                     printf("Desligando os LEDs...\n");
                     turn_off_all_leds();
                     break;
-                case '':
+                case '6':
                     printf("Acionando buzzer...\n");
                     turn_on_buzzer();
                     break;
-                case '':
+                case '7':
                     printf("Reiniciando...\n");
                     do_bootsel();
                     break;
                 default:
-                    printf("Entrada invalida.\n");
+                    printf("Entrada invalida.\n")
                     break;
             }
         }
