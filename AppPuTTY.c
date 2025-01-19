@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include "pico/stdlib.h"
-#include "hardware/watchdog.h"
+#include "pico/bootrom.h"
 
 #define LED_GREEN 11
 #define LED_BLUE 12
@@ -20,13 +20,13 @@ void init_gpio() {
 }
 
 /// @brief Função que liga um led
-/// @param key Valor da tecla que correposnde ao seu respectivo LED
+/// @param key Valor da tecla que corresponde ao seu respectivo LED
 void turn_on_led(uint key)
 {   
-    // valores das keys devem ser trocas nesse bloco conforme a necessidade
-    if (key == 10) gpio_put(LED_GREEN, 1);
-    if (key == 11) gpio_put(LED_BLUE, 1);
-    if (key == 12) gpio_put(LED_RED, 1);
+    // valores das keys devem ser trocados nesse bloco conforme a necessidade
+    if (key == 11) gpio_put(LED_GREEN, 1);
+    if (key == 12) gpio_put(LED_BLUE, 1);
+    if (key == 13) gpio_put(LED_RED, 1);
 }
 
 /// Função para ligar todos os LEDs luz branca
@@ -51,9 +51,61 @@ void turn_on_buzzer() {
 }
 
 /// @brief Função que realiza o reboot do dispositivo em modo BOOTSEL
-void do_bootsel(){
+void do_bootsel() 
 {
     printf("reiniciando...");
     sleep_ms(1);
     rom_reset_usb_boot_extra(-1, 0, false);
+}
+
+int main() {
+   
+    stdio_init_all();
+    init_gpio();
+
+    printf("Aguardando comandos...\n");
+
+    while (true) {
+        
+        //Verificar entrada (definindo um comando para acionar as ações no PuTTY)
+        //A estrutura está apenas como uma base, podendo ser modificada durante o desenvolvimento
+        if () {
+
+            switch () {
+                case '':
+                    printf("Ligando LED verde...\n");
+                    turn_on_led(11);
+                    break;
+                case '':
+                    printf("Ligando LED azul...\n");
+                    turn_on_led(12);
+                    break;
+                case '':
+                    printf("Ligando LED vermelho...\n");
+                    turn_on_led(13);
+                    break;
+                case '':
+                    printf("Ligando todos os LEDs...\n");
+                    turn_on_all_leds_white();
+                    break;
+                case '':
+                    printf("Desligando os LEDs...\n");
+                    turn_off_all_leds();
+                    break;
+                case '':
+                    printf("Acionando buzzer...\n");
+                    turn_on_buzzer();
+                    break;
+                case '':
+                    printf("Reiniciando...\n");
+                    do_bootsel();
+                    break;
+                default:
+                    printf("Entrada invalida.\n");
+                    break;
+            }
+        }
+    }
+
+    return 0;
 }
