@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include "pico/stdlib.h"
 #include "pico/bootrom.h"
-#include "hardware/clocks.h"
 
 #define LED_GREEN 11
 #define LED_BLUE 12
