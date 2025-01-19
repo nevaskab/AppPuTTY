@@ -67,70 +67,36 @@ int main() {
     while (true) {
  
         //verifica caractere na entrada UART
-        if (getchar_timeout_us(0) != PICO_ERROR_TIMEOUT) {
-            char comando = getchar();
+	if (getchar_timeout_us(0) != PICO_ERROR_TIMEOUT) {
+        char comando = getchar();
+
 
             switch (comando) {
                 case '1':
                     printf("Ligando LED verde...\n");
-                    leds_on(LED_GREEN);
+                    turn_on_led(11);
                     break;
                 case '2':
                     printf("Ligando LED azul...\n");
-                    leds_on(LED_BLUE);
+                    turn_on_led(12);
                     break;
                 case '3':
                     printf("Ligando LED vermelho...\n");
-                    leds_on(LED_RED);
+                    turn_on_led(13);
                     break;
                 case '4':
                     printf("Ligando todos os LEDs...\n");
-                    all_leds_on();
-                    break;
-                case '5':
-                    printf("Desligando todos os LEDs...\n");
-                    leds_off();
-                    break;
-                case '6':
-                    printf("Acionando buzzer...\n");
-                    buzzer_on();
-                    break;
-                case '7':
-                    printf("Reiniciando...\n");
-                    sleep_ms(1000);
-                    return 0;//!
-                    //reset_usb_boot(0, 0);
-                default:
-                    printf("Comando invalido.\n");
- 
-        if () {
-
-            switch () {
-                case '':
-                    printf("Ligando LED verde...\n");
-                    turn_on_led(11);
-                    break;
-                case '':
-                    printf("Ligando LED azul...\n");
-                    turn_on_led(12);
-                    break;
-                case '':
-                    printf("Ligando LED vermelho...\n");
-                    turn_on_led(13);
-                    break;
-                case '':
-                    printf("Ligando todos os LEDs...\n");
                     turn_on_all_leds_white();
                     break;
-                case '':
+                case '5':
                     printf("Desligando os LEDs...\n");
                     turn_off_all_leds();
                     break;
-                case '':
+                case '6':
                     printf("Acionando buzzer...\n");
                     turn_on_buzzer();
                     break;
-                case '':
+                case '7':
                     printf("Reiniciando...\n");
                     do_bootsel();
                     break;
