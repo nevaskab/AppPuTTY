@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "pico/stdlib.h"
+#include "pico/bootrom.h"
 
 #define LED_GREEN 11
 #define LED_BLUE 12
@@ -19,10 +20,10 @@ void init_gpio() {
 }
 
 /// @brief Função que liga um led
-/// @param key Valor da tecla que correposnde ao seu respectivo LED
+/// @param key Valor da tecla que corresponde ao seu respectivo LED
 void turn_on_led(uint key)
 {   
-    // valores das keys devem ser trocas nesse bloco conforme a necessidade
+    // valores das keys devem ser trocados nesse bloco conforme a necessidade
     if (key == 11) gpio_put(LED_GREEN, 1);
     if (key == 12) gpio_put(LED_BLUE, 1);
     if (key == 13) gpio_put(LED_RED, 1);
