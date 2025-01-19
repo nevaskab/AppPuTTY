@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "pico/stdlib.h"
 #include "pico/bootrom.h"
+#include "hardware/clocks.h"
 
 #define LED_GREEN 11
 #define LED_BLUE 12
@@ -19,15 +20,23 @@ void init_gpio() {
     gpio_set_dir(BUZZER, GPIO_OUT);
 }
 
+/// Função para desligar todos os LEDs
+void turn_off_all_leds() {
+    gpio_put(LED_GREEN, 0);
+    gpio_put(LED_BLUE, 0);
+    gpio_put(LED_RED, 0);
+}
+
 /// @brief Função que liga um led
 /// @param key Valor da tecla que corresponde ao seu respectivo LED
 void turn_on_led(uint key)
 {   
-    // valores das keys devem ser trocados nesse bloco conforme a necessidade
+    turn_off_all_leds();
     if (key == 11) gpio_put(LED_GREEN, 1);
     if (key == 12) gpio_put(LED_BLUE, 1);
     if (key == 13) gpio_put(LED_RED, 1);
 }
+
 
 /// Função para ligar todos os LEDs luz branca
 void turn_on_all_leds_white() {
@@ -36,24 +45,23 @@ void turn_on_all_leds_white() {
     gpio_put(LED_RED, 1);
 }
 
-/// Função para desligar todos os LEDs
-void turn_off_all_leds() {
-    gpio_put(LED_GREEN, 0);
-    gpio_put(LED_BLUE, 0);
-    gpio_put(LED_RED, 0);
-}
-
 /// Função para ligar o buzzer por 2 segundos
 void turn_on_buzzer() {
-    gpio_put(BUZZER, 1);
-    sleep_ms(2000);
-    gpio_put(BUZZER, 0);
+    int duracao_ms = 2000;
+        while (duracao_ms > 0) {
+            gpio_put(BUZZER, 1);
+            sleep_ms(2);
+            duracao_ms --;
+            gpio_put(BUZZER, 0);
+            sleep_ms(3);
+            duracao_ms -=3;
+        }
 }
 
 /// @brief Função que realiza o reboot do dispositivo em modo BOOTSEL
 void do_bootsel() 
 {
-    printf("reiniciando...");
+    printf("Reiniciando...");
     sleep_ms(1);
     rom_reset_usb_boot_extra(-1, 0, false);
 }
@@ -66,10 +74,8 @@ int main() {
 
     while (true) {
  
-        //verifica caractere na entrada UART
-	if (getchar_timeout_us(0) != PICO_ERROR_TIMEOUT) {
-        char comando = getchar();
-
+        if (getchar_timeout_us(0) != PICO_ERROR_TIMEOUT) {
+            char comando = getchar();
 
             switch (comando) {
                 case '1':
@@ -97,11 +103,10 @@ int main() {
                     turn_on_buzzer();
                     break;
                 case '7':
-                    printf("Reiniciando...\n");
                     do_bootsel();
                     break;
                 default:
-                    printf("Entrada invalida.\n")
+                    printf("Entrada invalida.\n");
                     break;
             }
         }
